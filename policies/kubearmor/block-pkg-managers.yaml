@@ -1,0 +1,35 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorClusterPolicy
+metadata:
+  name: block-pkg-managers
+spec:
+  selector:
+    matchExpressions: []
+  process:
+    matchPaths:
+      # Gestionnaires de paquets système
+      - path: /usr/bin/apt
+      - path: /usr/bin/apt-get
+      - path: /usr/bin/apt-cache
+      - path: /usr/bin/dpkg
+      - path: /usr/bin/yum
+      - path: /usr/bin/dnf
+      - path: /usr/bin/rpm
+      - path: /usr/bin/zypper
+      - path: /usr/bin/apk
+      # Gestionnaires de paquets langage (vecteurs d'injection)
+      - path: /usr/bin/pip
+      - path: /usr/bin/pip3
+      - path: /usr/local/bin/pip
+      - path: /usr/local/bin/pip3
+      - path: /usr/bin/npm
+      - path: /usr/local/bin/npm
+      - path: /usr/bin/gem
+      - path: /usr/local/bin/gem
+      # Téléchargement de payloads
+      - path: /usr/bin/wget
+      - path: /usr/bin/curl
+      - path: /usr/bin/nc
+      - path: /usr/bin/ncat
+      - path: /bin/nc
+  action: Block

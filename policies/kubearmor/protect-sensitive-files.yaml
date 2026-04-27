@@ -1,0 +1,38 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorClusterPolicy
+metadata:
+  name: protect-sensitive-files
+spec:
+  selector:
+    matchExpressions: []
+  file:
+    matchPaths:
+      # Modification des comptes / élévation de privilèges
+      - path: /etc/passwd
+        readOnly: true
+      - path: /etc/shadow
+        readOnly: true
+      - path: /etc/sudoers
+        readOnly: true
+      - path: /etc/crontab
+        readOnly: true
+      # Accès au noyau via /proc
+      - path: /proc/sysrq-trigger
+      - path: /proc/kcore
+      - path: /proc/kmem
+      - path: /proc/mem
+      # Fichiers de config réseau critiques
+      - path: /etc/hosts
+        readOnly: true
+      - path: /etc/resolv.conf
+        readOnly: true
+    matchDirectories:
+      - dir: /etc/sudoers.d/
+        readOnly: true
+      - dir: /etc/cron.d/
+        readOnly: true
+      - dir: /etc/cron.daily/
+        readOnly: true
+      - dir: /etc/cron.weekly/
+        readOnly: true
+  action: Block

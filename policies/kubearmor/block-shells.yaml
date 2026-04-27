@@ -1,0 +1,19 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: block-shells
+  namespace: team-dev
+spec:
+  selector:
+    matchLabels: {}
+  process:
+    matchPaths:
+      - path: /bin/sh
+      - path: /bin/bash
+      - path: /bin/dash
+      - path: /usr/bin/sh
+      - path: /usr/bin/bash
+      - path: /usr/bin/dash
+      - path: /usr/bin/zsh
+      - path: /bin/zsh
+  action: Block

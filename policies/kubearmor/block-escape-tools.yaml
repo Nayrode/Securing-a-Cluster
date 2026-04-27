@@ -1,0 +1,26 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorClusterPolicy
+metadata:
+  name: block-escape-tools
+spec:
+  selector:
+    matchExpressions: []
+  process:
+    matchPaths:
+      # Sortie du namespace / container escape
+      - path: /usr/bin/nsenter
+      - path: /bin/nsenter
+      - path: /usr/sbin/chroot
+      - path: /sbin/chroot
+      - path: /usr/bin/unshare
+      - path: /bin/unshare
+      # Inspection mémoire / débogage kernel
+      - path: /usr/bin/strace
+      - path: /usr/bin/ltrace
+      - path: /usr/bin/gdb
+      - path: /usr/bin/ptrace
+      # Manipulation des capabilities
+      - path: /usr/sbin/setcap
+      - path: /usr/bin/newuidmap
+      - path: /usr/bin/newgidmap
+  action: Block

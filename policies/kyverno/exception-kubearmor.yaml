@@ -2,7 +2,7 @@ apiVersion: kyverno.io/v2
 kind: PolicyException
 metadata:
   name: kubearmor-exception
-  namespace: kubearmor
+  namespace: kyverno
 spec:
   exceptions:
     - policyName: disallow-root-user
