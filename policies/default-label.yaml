@@ -1,0 +1,15 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-default-labels
+spec:
+  rules:
+    - name: add-env-label
+      match:
+        resources:
+          kinds: ["Deployment", "Pod"]
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              env: "production"

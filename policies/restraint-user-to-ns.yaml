@@ -1,0 +1,17 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-team-dev
+spec:
+  validationFailureAction: Enforce
+  rules:
+    - name: limit-namespace
+      match:
+        resources:
+          kinds: ["Pod", "Deployment"]
+          namespaces: ["team-dev"]
+      validate:
+        message: "Les ressources doivent rester dans team-dev"
+        pattern:
+          metadata:
+            namespace: "team-dev"

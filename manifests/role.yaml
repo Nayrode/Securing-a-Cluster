@@ -1,0 +1,30 @@
+# role-team-dev.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: team-dev-role
+  namespace: team-dev
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/logs", "pods/exec", "services", "configmaps"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "replicasets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: team-dev-binding
+  namespace: team-dev
+subjects:
+  - kind: User
+    name: jean           # correspond au CN du certificat
+    apiGroup: rbac.authorization.k8s.io
+  - kind: Group
+    name: team-dev       # correspond au O du certificat
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: team-dev-role
+  apiGroup: rbac.authorization.k8s.io
